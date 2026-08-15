@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lavish Cakes</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1a0a0a 0%, #3d1a1a 50%, #1a0a0a 100%);
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Floating gold sparkles */
+    .sparkle {
+        position: fixed;
+        border-radius: 50%;
+        background: radial-gradient(circle, #ffd700, transparent);
+        pointer-events: none;
+        animation: floatUp linear infinite;
+        opacity: 0;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) scale(0);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateY(-100vh) scale(1);
+            opacity: 0;
+        }
+    }
+
+    .content {
+        text-align: center;
+        z-index: 10;
+        position: relative;
+        padding: 20px;
+    }
+
+    .cake-icon {
+        font-size: 5rem;
+        animation: elevateFloat 3s ease-in-out infinite;
+        margin-bottom: 20px;
+        display: inline-block;
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+    }
+
+    @keyframes elevateFloat {
+        0%, 100% { transform: translateY(0) rotate(-3deg); }
+        50% { transform: translateY(-25px) rotate(3deg); }
+    }
+
+    .welcome-text {
+        font-size: 1.3rem;
+        color: #d4af37;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        animation: fadeInDown 1.5s ease-out;
+        font-weight: 300;
+    }
+
+    @keyframes fadeInDown {
+        0% { opacity: 0; transform: translateY(-30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-name {
+        font-size: 5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #ffd700, #fff5c3, #d4af37, #ffd700);
+        background-size: 300% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shine 4s linear infinite, popIn 1.2s ease-out;
+        margin-bottom: 20px;
+        letter-spacing: 3px;
+        text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+    }
+
+    @keyframes shine {
+        to { background-position: 300% center; }
+    }
+
+    @keyframes popIn {
+        0% { opacity: 0; transform: scale(0.5); }
+        60% { transform: scale(1.05); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .tagline {
+        color: #e8d5a3;
+        font-size: 1.15rem;
+        font-style: italic;
+        margin-bottom: 45px;
+        animation: fadeIn 2s ease-out;
+        letter-spacing: 1px;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    .divider {
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        margin: 30px auto;
+        animation: widthGrow 1.5s ease-out;
+    }
+
+    @keyframes widthGrow {
+        0% { width: 0; }
+        100% { width: 80px; }
+    }
+
+    .order-btn {
+        display: inline-block;
+        background: linear-gradient(45deg, #d4af37, #ffd700, #d4af37);
+        background-size: 200% auto;
+        color: #1a0a0a;
+        text-decoration: none;
+        padding: 18px 50px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 50px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        transition: all 0.4s ease;
+        animation: btnGlow 2s ease-in-out infinite, fadeInUp 1.8s ease-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes btnGlow {
+        0%, 100% { box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4); }
+        50% { box-shadow: 0 10px 45px rgba(255, 215, 0, 0.7); }
+    }
+
+    .order-btn:hover {
+        background-position: right center;
+        transform: translateY(-5px) scale(1.05);
+    }
+
+    .order-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .order-btn:hover::before {
+        left: 100%;
+    }
+
+    .footer-note {
+        margin-top: 40px;
+        color: #8a7050;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        animation: fadeIn 2.5s ease-out;
+    }
+
+    @media (max-width: 600px) {
+        .brand-name { font-size: 2.8rem; }
+        .welcome-text { font-size: 1rem; letter-spacing: 4px; }
+        .cake-icon { font-size: 3.5rem; }
+        .tagline { font-size: 0.95rem; padding: 0 15px; }
+        .order-btn { padding: 15px 35px; font-size: 1rem; }
+    }
+</style>
+</head>
+<body>
+
+<div class="content">
+    <div class="cake-icon">🎂</div>
+    <div class="welcome-text">Welcome to</div>
+    <h1 class="brand-name">Lavish Cakes</h1>
+    <div class="divider"></div>
+    <p class="tagline">Where every celebration deserves a masterpiece 🍰✨</p>
+    <a href="order.html" class="order-btn">Order Your Cake →</a>
+    <p class="footer-note">Handcrafted with love, delivered with elegance</p>
+</div>
+
+<script>
+    function createSparkles() {
+        const container = document.body;
+        for (let i = 0; i < 30; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            const size = Math.random() * 6 + 3;
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.bottom = '-10px';
+            sparkle.style.animationDuration = (5 + Math.random() * 8) + 's';
+            sparkle.style.animationDelay = (Math.random() * 5) + 's';
+            container.appendChild(sparkle);
+
+            setTimeout(() => sparkle.remove(), 15000);
+        }
+    }
+
+    createSparkles();
+    setInterval(createSparkles, 4000);
+</script>
+
+</body>
+</html>
