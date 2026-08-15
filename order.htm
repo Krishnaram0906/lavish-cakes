@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Your Cake — Lavish Cakes</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1a0a0a 0%, #3d1a1a 50%, #1a0a0a 100%);
+        padding: 40px 15px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .sparkle {
+        position: fixed;
+        border-radius: 50%;
+        background: radial-gradient(circle, #ffd700, transparent);
+        pointer-events: none;
+        animation: floatUp linear infinite;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(0) scale(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 0.7; }
+        100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 35px;
+        position: relative;
+        z-index: 10;
+        animation: fadeInDown 1s ease-out;
+    }
+
+    @keyframes fadeInDown {
+        0% { opacity: 0; transform: translateY(-30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #ffd700, #fff5c3, #d4af37);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+        color: #e8d5a3;
+        font-style: italic;
+        font-size: 1rem;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: rgba(255, 250, 240, 0.98);
+        border-radius: 25px;
+        padding: 40px 35px;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.5);
+        position: relative;
+        z-index: 10;
+        animation: popIn 1s ease-out;
+        border: 2px solid #d4af37;
+    }
+
+    @keyframes popIn {
+        0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+        position: relative;
+    }
+
+    label {
+        display: block;
+        color: #6b3a1f;
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+    }
+
+    label .required {
+        color: #d4af37;
+        margin-left: 3px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 13px 16px;
+        border: 2px solid #e8d5c0;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.3s ease;
+        background: #fffdf8;
+        color: #3d1a1a;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: #d4af37;
+        box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+        transform: translateY(-2px);
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 90px;
+    }
+
+    .row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        flex: 1;
+        min-width: 160px;
+        padding: 16px 20px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .submit-btn {
+        background: linear-gradient(45deg, #d4af37, #ffd700);
+        color: #1a0a0a;
+        box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 12px 28px rgba(212, 175, 55, 0.7);
+    }
+
+    .sample-btn {
+        background: linear-gradient(45deg, #6b3a1f, #8a4e2b);
+        color: #fff5c3;
+        box-shadow: 0 8px 20px rgba(107, 58, 31, 0.4);
+    }
+
+    .sample-btn:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 12px 28px rgba(107, 58, 31, 0.6);
+    }
+
+    .success-msg {
+        display: none;
+        background: linear-gradient(45deg, #d4fc79, #96e6a1);
+        color: #1a5c1a;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+        animation: bounceIn 0.6s ease;
+    }
+
+    @keyframes bounceIn {
+        0% { transform: scale(0); opacity: 0; }
+        60% { transform: scale(1.1); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #e8d5a3;
+        text-decoration: none;
+        font-size: 0.9rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    .back-link:hover {
+        color: #ffd700;
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+        .row-2 { grid-template-columns: 1fr; }
+        .page-header h1 { font-size: 1.9rem; }
+        .form-container { padding: 30px 20px; }
+        .btn-group { flex-direction: column; }
+    }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+    <h1>🎂 Order Your Lavish Cake 🎂</h1>
+    <p>Fill in the details below to bring your dream cake to life</p>
+</div>
+
+<div class="form-container">
+    <form action="https://formsubmit.co/gsaikrishna112233@gmail.com" method="POST" id="orderForm">
+        
+        <!-- FormSubmit Configuration -->
+        <input type="hidden" name="_subject" value="🎂 New Cake Order — Lavish Cakes!">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://yourusername.github.io/your-repo/thankyou.html">
+
+        <div class="form-group">
+            <label>Customer Name<span class="required">*</span></label>
+            <input type="text" name="Customer Name" required placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+            <label>Cake Theme<span class="required">*</span></label>
+            <input type="text" name="Cake Theme" required placeholder="e.g. Birthday, Wedding, Superhero, Floral">
+        </div>
+
+        <div class="row-2">
+            <div class="form-group">
+                <label>Colours Required<span class="required">*</span></label>
+                <input type="text" name="Colours Required" required placeholder="e.g. Pink & Gold">
+            </div>
+
+            <div class="form-group">
+                <label>Weight (in Kgs)<span class="required">*</span></label>
+                <input type="number" step="0.5" name="Weight (Kgs)" required placeholder="e.g. 1.5">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Contact Number<span class="required">*</span></label>
+            <input type="tel" name="Contact Number" required placeholder="10-digit mobile number" pattern="[0-9]{10}">
+        </div>
+
+        <div class="form-group">
+            <label>Delivery Address<span class="required">*</span></label>
+            <textarea name="Address" required placeholder="Full address with pincode"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Additional Information</label>
+            <textarea name="Additional Information" placeholder="Any allergies, flavor preferences, message on cake, etc. (optional)"></textarea>
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn submit-btn">✅ Submit Order</button>
+            <a href="samples.html" class="btn sample-btn">🖼️ Sample Cakes</a>
+        </div>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+        🎉 Order submitted successfully! We'll contact you shortly.
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Home</a>
+</div>
+
+<script>
+    function createSparkles() {
+        for (let i = 0; i < 15; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            const size = Math.random() * 6 + 3;
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.bottom = '-10px';
+            sparkle.style.animationDuration = (6 + Math.random() * 6) + 's';
+            sparkle.style.animationDelay = (Math.random() * 4) + 's';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 15000);
+        }
+    }
+    createSparkles();
+    setInterval(createSparkles, 5000);
+</script>
+
+</body>
+</html>
