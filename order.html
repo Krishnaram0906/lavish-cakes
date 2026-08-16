@@ -308,6 +308,76 @@
     createSparkles();
     setInterval(createSparkles, 5000);
 </script>
+<script>
+    // ===== SPARKLES (existing) =====
+    function createSparkles() {
+        for (let i = 0; i < 15; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            const size = Math.random() * 6 + 3;
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.bottom = '-10px';
+            sparkle.style.animationDuration = (6 + Math.random() * 6) + 's';
+            sparkle.style.animationDelay = (Math.random() * 4) + 's';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 15000);
+        }
+    }
+    createSparkles();
+    setInterval(createSparkles, 5000);
 
+    // ===== NEW: FORM SUBMIT + WHATSAPP =====
+    const orderForm = document.getElementById('orderForm');
+
+    // 👇 REPLACE WITH YOUR WHATSAPP NUMBER (country code + number, no + or spaces)
+    const whatsappNumber = "919618775205"; 
+
+    orderForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop default page reload
+
+        const formData = new FormData(orderForm);
+
+        const name = formData.get('Customer Name') || '';
+        const theme = formData.get('Cake Theme') || '';
+        const colours = formData.get('Colours Required') || '';
+        const weight = formData.get('Weight (Kgs)') || '';
+        const contact = formData.get('Contact Number') || '';
+        const address = formData.get('Address') || '';
+        const additional = formData.get('Additional Information') || '';
+
+        // Build WhatsApp message (URL encoded with line breaks)
+        const whatsappMessage = 
+            `🎂 *New Cake Order - Lavish Cakes*%0A%0A` +
+            `*Name:* ${name}%0A` +
+            `*Theme:* ${theme}%0A` +
+            `*Colours:* ${colours}%0A` +
+            `*Weight:* ${weight} Kg%0A` +
+            `*Contact:* ${contact}%0A` +
+            `*Address:* ${address}%0A` +
+            `*Additional Info:* ${additional || 'None'}`;
+
+        const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+        // Open WhatsApp immediately (must happen right on click, before any delay)
+        window.open(whatsappURL, '_blank');
+
+        // Send email via FormSubmit in the background
+        fetch(orderForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(response => {
+            document.getElementById('successMsg').style.display = 'block';
+            orderForm.reset();
+        })
+        .catch(error => {
+            console.log('Email sending issue:', error);
+            document.getElementById('successMsg').style.display = 'block';
+        });
+    });
+</script>
 </body>
 </html>
